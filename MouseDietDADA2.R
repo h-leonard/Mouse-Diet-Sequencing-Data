@@ -2,16 +2,9 @@
 
 source("https://bioconductor.org/biocLite.R")
 library(dada2)
-biocLite("dada2")
-library(phyloseq); packageVersion("phyloseq")
 library(ggplot2)
-biocLite("phyloseq")
-biocLite("DESeq2")
-library("DESeq2")
+library(DESeq2)
 library(phyloseq)
-biocLite("S4Vectors")
-biocLite("data.table")
-packageVersion("phyloseq")
 
 
 
@@ -137,7 +130,7 @@ rownames(samdf) <- samples.out
 seqtab.nochim.taxa <- seqtab.nochim
 colnames(seqtab.nochim.taxa) <- 1:nrow(taxa.plus)
 taxa.table <- taxa.plus
-#######rownames(taxa.table) <- 1:nrow(taxa.plus)#?
+
 
 # Construct phyloseq object (straightforward from dada2 outputs)
 ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE), 
@@ -145,7 +138,6 @@ ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE),
                tax_table(taxa.table))
 ps
 
-import::from(phyloseq, reconcile_categories)
 
 # Filter sequences that don't have more than 10 counts in any sample
 ps.count <- filter_taxa(ps, function(x) max(x) > 10, TRUE)
@@ -165,22 +157,20 @@ d23_subset <- prune_samples(sample_data(ps.count)$day == 23, ps.count)
 
 
 
-# D0 comparison ############
+# Day 0 comparison ############
 deseq2_input_d0 <- phyloseq_to_deseq2(d0_subset,~description)
 deseq2_output_d0 <- DESeq(deseq2_input_d0, test="Wald", fitType="parametric")
 deseq2_results_d0 <- results(deseq2_output_d0, cooksCutoff = FALSE)
 
 alpha = 0.05
 sigtab_d0 = deseq2_results_d0[which(deseq2_results_d0$padj < alpha), ]
-sigtab_d0 = cbind(as(sigtab_d0, "data.frame"), as(tax_table(ps.count)[rownames(sigtab_d0), ], "matrix"))
-head(sigtab_d0)
-
-ps.count
 sigtab_d0
-deseq2_results_d0$padj
+
+#No results less than specified alpha, indicates no initial differences in groups
 
 
-# D5 comparison
+
+# Day 5 comparison
 deseq2_input_d5 <- phyloseq_to_deseq2(d5_subset,~description)
 deseq2_output_d5 <- DESeq(deseq2_input_d5, test="Wald", fitType="parametric")
 deseq2_results_d5 <- results(deseq2_output_d5, cooksCutoff = FALSE)
@@ -191,7 +181,7 @@ sigtab_d5 = cbind(as(sigtab_d5, "data.frame"), as(tax_table(ps.count)[rownames(s
 head(sigtab_d5)
 
 
-# D8 comparison
+# Day 8 comparison
 deseq2_input_d8 <- phyloseq_to_deseq2(d8_subset,~description)
 deseq2_output_d8 <- DESeq(deseq2_input_d8, test="Wald", fitType="parametric")
 deseq2_results_d8 <- results(deseq2_output_d8, cooksCutoff = FALSE)
@@ -202,7 +192,7 @@ sigtab_d8 = cbind(as(sigtab_d8, "data.frame"), as(tax_table(ps.count)[rownames(s
 head(sigtab_d8)
 
 
-# D12 comparison
+# Day 12 comparison
 deseq2_input_d12 <- phyloseq_to_deseq2(d12_subset,~description)
 deseq2_output_d12 <- DESeq(deseq2_input_d12, test="Wald", fitType="parametric")
 deseq2_results_d12 <- results(deseq2_output_d12, cooksCutoff = FALSE)
@@ -213,7 +203,7 @@ sigtab_d12 = cbind(as(sigtab_d12, "data.frame"), as(tax_table(ps.count)[rownames
 head(sigtab_d12)
 
 
-# D15 comparison
+# Day 15 comparison
 deseq2_input_d15 <- phyloseq_to_deseq2(d15_subset,~description)
 deseq2_output_d15 <- DESeq(deseq2_input_d15, test="Wald", fitType="parametric")
 deseq2_results_d15 <- results(deseq2_output_d15, cooksCutoff = FALSE)
@@ -224,7 +214,7 @@ sigtab_d15 = cbind(as(sigtab_d15, "data.frame"), as(tax_table(ps.count)[rownames
 head(sigtab_d15)
 
 
-# D23 comparison
+# Day 23 comparison
 deseq2_input_d23 <- phyloseq_to_deseq2(d23_subset,~description)
 deseq2_output_d23 <- DESeq(deseq2_input_d23, test="Wald", fitType="parametric")
 deseq2_results_d23 <- results(deseq2_output_d23, cooksCutoff = FALSE)
@@ -246,12 +236,18 @@ seqs <- union(seqs,rownames(sigtab_d23))
 ps.rel <- transform_sample_counts(ps.count, function(x) x/sum(x))
 
 
-plot_heatmap(prune_taxa(seqs,ps.rel),"NMDS","bray",sample.label = "Description","Genus", first.sample = "Plate3-A1")
-
+p <- plot_heatmap(prune_taxa(seqs,ps.rel),"NMDS","bray",sample.label = "description","Genus", first.sample = "Plate3-A1")
+p + theme (axis.text.x = element_text(size=6))
 
 # save image as svg
 
 
 
+# Resources:
+# 1. Base code by Greg Medlock: 
+#    https://github.com/gregmedlock/crypto_2016/blob/master/bin/crypto_dada2_processing.R
+#
+# 2. DADA2 Pipeline Tutorial:
+#    http://benjjneb.github.io/dada2/tutorial.html
 
 
