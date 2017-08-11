@@ -5,6 +5,9 @@ library(dada2)
 library(ggplot2)
 library(DESeq2)
 library(phyloseq)
+library(randomForest)
+library(dplyr)
+library(knitr)
 
 
 
@@ -32,6 +35,9 @@ fnFs <- file.path(path, fnFs)
 fnRs <- file.path(path, fnRs)
 
 
+
+
+
 par(mfrow=c(2,3))
 #forward
 plotQualityProfile(fnFs[[1]])
@@ -53,7 +59,7 @@ filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq.gz"))
 filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq.gz"))
 
 
-# Filter
+# Filter only forward reads, reverse reads too low quality to use
 for(i in seq_along(fnFs)) {
   fastqFilter(fnFs[i], filtFs[i],
                     trimLeft=20, truncLen=200, 
@@ -76,8 +82,8 @@ derepFs[[1]]
 dadaFs <- dada(derepFs, err=NULL, selfConsist = TRUE)
 
 
-#Visualize error rates
-plotErrors(dadaFs[[2]], nominalQ=TRUE)
+ #Visualize error rates
+ plotErrors(dadaFs[[2]], nominalQ=TRUE)
 
 
 # construct sequence table
@@ -109,7 +115,7 @@ unname(taxa.plus)
 sample <- read.csv("C:/Users/hll4c/R/SampleMouse.csv")
 
 
-# Make a data.frame holding the sample data
+# Make a data frame holding the sample data
 rownames(sample) <- sample$SAMPLE_ID
 samples.out <- rownames(seqtab.nochim)
 sample <- sample[samples.out,]
@@ -126,20 +132,26 @@ samdf <- data.frame(sample=samples.out, description=diet_description, day=days_o
 rownames(samdf) <- samples.out
 
 
-# copy to create a new object that has taxa information
+# copy to create a new object that has taxa information to make phyloseq object
 seqtab.nochim.taxa <- seqtab.nochim
 colnames(seqtab.nochim.taxa) <- 1:nrow(taxa.plus)
 taxa.table <- taxa.plus
+rownames(taxa.table) <- 1:nrow(taxa.plus)
 
 
-# Construct phyloseq object (straightforward from dada2 outputs)
-ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE), 
+
+
+
+# Construct phyloseq object 
+ps <- phyloseq(otu_table(seqtab.nochim.taxa, taxa_are_rows=FALSE), 
                sample_data(samdf), 
                tax_table(taxa.table))
 ps
 
+alpha_div <- estimate_richness(ps)
+kable(alpha_div)
 
-# Filter sequences that don't have more than 10 counts in any sample
+# Filter sequences that have less than 10 counts in any sample
 ps.count <- filter_taxa(ps, function(x) max(x) > 10, TRUE)
 ps.count
 
@@ -179,7 +191,7 @@ alpha = 0.05
 sigtab_d5 = deseq2_results_d5[which(deseq2_results_d5$padj < alpha), ]
 sigtab_d5 = cbind(as(sigtab_d5, "data.frame"), as(tax_table(ps.count)[rownames(sigtab_d5), ], "matrix"))
 head(sigtab_d5)
-
+sigtab_d5
 
 # Day 8 comparison
 deseq2_input_d8 <- phyloseq_to_deseq2(d8_subset,~description)
@@ -234,14 +246,125 @@ seqs <- union(seqs,rownames(sigtab_d23))
 
 # Transform sequence table from counts to relative abundance
 ps.rel <- transform_sample_counts(ps.count, function(x) x/sum(x))
+ps.rel
 
+p <- plot_heatmap(prune_taxa(seqs,ps.rel),"NMDS","bray",sample.label = "description","Genus", first.sample = "Plate3-A3")
+p + theme (axis.text.x = element_text(size=6))
+
+
+
+
+
+
+
+
+
+# Random Forest Modeling
+
+# make dataframe of training data from OTU table with samples as rows and OTUs as columns
+
+ps.rel_pruned <- prune_taxa(seqs,ps.rel)
+
+
+predictors <- (otu_table(ps.rel_pruned))
+
+dim(predictors)
+
+
+# make response variable column
+
+response <- as.factor(sample_data(ps.rel_pruned)$description)
+otu_table(ps.rel_pruned)
+tax_table(ps.rel_pruned)
+
+
+# combine into one frame
+
+rf_data <- data.frame(response, predictors)
+
+
+# model
+
+
+set.seed(1000)
+
+diet.classify <- randomForest(response~., data = rf_data, ntree = 214)
+print(diet.classify)
+plot(diet.classify)
+
+
+names(diet.classify)
+
+# predictor names and importance
+
+
+imp <- importance(diet.classify)
+imp <- data.frame(predictors = rownames(imp), imp)
+
+
+# order by importance
+
+imp.sort <- arrange(imp, desc(MeanDecreaseGini))
+imp.sort$predictors <- factor(imp.sort$predictors, levels = imp.sort$predictors)
+
+
+# plot top 20 most important 
+
+imp.20 <- imp.sort[1:20, ]
+
+ggplot(imp.20, aes(x = predictors, y = MeanDecreaseGini)) +
+  geom_bar(stat = "identity", fill = "indianred") +
+  coord_flip() +
+  ggtitle("Most important OTUs")
+
+
+
+
+# match names in tax table and otu table
+
+otunames <- imp.20$predictors
+otunames <- gsub("X", "",  otunames)
+
+
+r <- rownames(tax_table(ps.rel)) %in% otunames
+
+
+
+k <- as.data.frame((tax_table(ps.rel)[r, ]))
+
+t <- k[match(otunames, rownames(k)),]
+
+kable(t)
+
+
+
+#Heatmap for most important otus for classifying each day + diet
 
 p <- plot_heatmap(prune_taxa(seqs,ps.rel),"NMDS","bray",sample.label = "description","Genus", first.sample = "Plate3-A1")
 p + theme (axis.text.x = element_text(size=6))
 
-# save image as svg
 
 
+
+
+
+
+
+#Investigating Lactobacilli populations
+
+tabletax <- as.data.frame(taxa.table)
+seqtab.final <- seqtab.nochim.taxa
+colnames(seqtab.final) <- tabletax$Genus
+
+lacto <- subset_taxa(ps.rel, Genus == "Lactobacillus")
+
+# group by sample
+plot_bar(lacto, "sample", "Abundance", "Genus", title = "Lactobacilli by Sample")
+
+#group by diet
+plot_bar(lacto, "description", "Abundance", "Genus", title = "Lactobacilli by Diet")
+
+write.table(seqtab.final, "DADA2_Diet_Seq_Table.csv")
 
 # Resources:
 # 1. Base code by Greg Medlock: 
