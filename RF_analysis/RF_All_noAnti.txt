@@ -1,0 +1,56 @@
+Call:
+ randomForest(formula = response ~ ., data = rf_data, ntree = 214) 
+               Type of random forest: classification
+                     Number of trees: 214
+No. of variables tried at each split: 6
+
+        OOB estimate of  error rate: 36.13%
+Confusion matrix:
+             dN, 12 days dN, 15 days dN, 5 days dN, 8 days dN, weaned dPD, 12 days
+dN, 12 days            7           0          0          0          0            0
+dN, 15 days            4           3          0          0          0            0
+dN, 5 days             0           0          5          0          0            0
+dN, 8 days             0           0          1          6          0            0
+dN, weaned             0           0          1          0          1            0
+dPD, 12 days           0           0          0          0          0            7
+dPD, 15 days           0           0          0          0          0            1
+dPD, 5 days            0           0          0          0          0            0
+dPD, 8 days            0           0          0          0          0            0
+dPD, weaned            0           0          0          0          2            0
+dZD, 12 days           0           0          0          0          0            0
+dZD, 15 days           0           0          0          0          0            0
+dZD, 5 days            0           0          1          0          0            0
+dZD, 8 days            0           0          0          0          0            0
+dZD, weaned            0           0          0          0          3            0
+             dPD, 15 days dPD, 5 days dPD, 8 days dPD, weaned dZD, 12 days dZD, 15 days
+dN, 12 days             0           0           1           0            0            0
+dN, 15 days             0           0           0           0            0            0
+dN, 5 days              0           0           0           0            0            0
+dN, 8 days              0           0           0           0            0            0
+dN, weaned              0           0           0           2            0            0
+dPD, 12 days            1           0           0           0            0            0
+dPD, 15 days            7           0           0           0            0            0
+dPD, 5 days             0           6           2           0            0            0
+dPD, 8 days             0           2           6           0            0            0
+dPD, weaned             0           0           0           4            0            0
+dZD, 12 days            0           0           0           0            7            1
+dZD, 15 days            0           0           0           0            2            6
+dZD, 5 days             0           0           0           0            0            0
+dZD, 8 days             0           0           0           0            2            0
+dZD, weaned             0           0           0           3            0            0
+             dZD, 5 days dZD, 8 days dZD, weaned class.error
+dN, 12 days            0           0           0   0.1250000
+dN, 15 days            0           1           0   0.6250000
+dN, 5 days             3           0           0   0.3750000
+dN, 8 days             1           0           0   0.2500000
+dN, weaned             0           0           4   0.8750000
+dPD, 12 days           0           0           0   0.1250000
+dPD, 15 days           0           0           0   0.1250000
+dPD, 5 days            0           0           0   0.2500000
+dPD, 8 days            0           0           0   0.2500000
+dPD, weaned            0           0           2   0.5000000
+dZD, 12 days           0           0           0   0.1250000
+dZD, 15 days           0           0           0   0.2500000
+dZD, 5 days            6           1           0   0.2500000
+dZD, 8 days            2           3           0   0.5714286
+dZD, weaned            0           0           2   0.7500000

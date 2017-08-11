@@ -1,0 +1,22 @@
+|   |Kingdom  |Phylum          |Class               |Order              |Family                |Genus             |Species     |
+|:--|:--------|:---------------|:-------------------|:------------------|:---------------------|:-----------------|:-----------|
+|3  |Bacteria |Verrucomicrobia |Verrucomicrobiae    |Verrucomicrobiales |Verrucomicrobiaceae   |Akkermansia       |muciniphila |
+|6  |Bacteria |Bacteroidetes   |Bacteroidia         |Bacteroidales      |Porphyromonadaceae    |Barnesiella       |NA          |
+|22 |Bacteria |Bacteroidetes   |Bacteroidia         |Bacteroidales      |Porphyromonadaceae    |NA                |NA          |
+|1  |Bacteria |Proteobacteria  |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae    |Klebsiella        |oxytoca     |
+|20 |Bacteria |Bacteroidetes   |Bacteroidia         |Bacteroidales      |Porphyromonadaceae    |NA                |NA          |
+|4  |Bacteria |Proteobacteria  |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae    |Salmonella        |NA          |
+|5  |Bacteria |Bacteroidetes   |Bacteroidia         |Bacteroidales      |Porphyromonadaceae    |NA                |NA          |
+|7  |Bacteria |Tenericutes     |Mollicutes          |Anaeroplasmatales  |Anaeroplasmataceae    |Anaeroplasma      |NA          |
+|30 |Bacteria |Firmicutes      |Bacilli             |Lactobacillales    |Enterococcaceae       |Enterococcus      |NA          |
+|2  |Bacteria |Proteobacteria  |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae    |Enterobacter      |NA          |
+|37 |Bacteria |Bacteroidetes   |Bacteroidia         |Bacteroidales      |Porphyromonadaceae    |NA                |NA          |
+|31 |Bacteria |Firmicutes      |Clostridia          |Clostridiales      |Peptostreptococcaceae |Clostridium_XI    |NA          |
+|8  |Bacteria |Firmicutes      |Bacilli             |Bacillales         |Paenibacillaceae_1    |Paenibacillus     |NA          |
+|9  |Bacteria |Firmicutes      |Clostridia          |Clostridiales      |Lachnospiraceae       |Blautia           |NA          |
+|16 |Bacteria |Firmicutes      |Erysipelotrichia    |Erysipelotrichales |Erysipelotrichaceae   |Clostridium_XVIII |NA          |
+|13 |Bacteria |Firmicutes      |Erysipelotrichia    |Erysipelotrichales |Erysipelotrichaceae   |NA                |NA          |
+|33 |Bacteria |Firmicutes      |Erysipelotrichia    |Erysipelotrichales |Erysipelotrichaceae   |NA                |NA          |
+|17 |Bacteria |Firmicutes      |Clostridia          |Clostridiales      |Lachnospiraceae       |NA                |NA          |
+|18 |Bacteria |Firmicutes      |Bacilli             |Lactobacillales    |Streptococcaceae      |Streptococcus     |NA          |
+|11 |Bacteria |Proteobacteria  |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae    |NA                |NA          |

@@ -1,0 +1,12 @@
+Call:
+ randomForest(formula = response2 ~ ., data = rf_data2, ntree = 59) 
+               Type of random forest: classification
+                     Number of trees: 59
+No. of variables tried at each split: 18
+
+        OOB estimate of  error rate: 12.61%
+Confusion matrix:
+    dN dPD dZD class.error
+dN  35   3   2   0.1250000
+dPD  0  36   4   0.1000000
+dZD  5   1  33   0.1538462

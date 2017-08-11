@@ -1,0 +1,22 @@
+|   |Kingdom  |Phylum         |Class               |Order              |Family              |Genus            |Species |
+|:--|:--------|:--------------|:-------------------|:------------------|:-------------------|:----------------|:-------|
+|14 |Bacteria |Firmicutes     |Erysipelotrichia    |Erysipelotrichales |Erysipelotrichaceae |Turicibacter     |NA      |
+|4  |Bacteria |Proteobacteria |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae  |Salmonella       |NA      |
+|35 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Ruminococcaceae     |NA               |NA      |
+|34 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Ruminococcaceae     |NA               |NA      |
+|29 |Bacteria |Firmicutes     |Bacilli             |Bacillales         |Paenibacillaceae_1  |Paenibacillus    |NA      |
+|17 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Lachnospiraceae     |NA               |NA      |
+|22 |Bacteria |Bacteroidetes  |Bacteroidia         |Bacteroidales      |Porphyromonadaceae  |NA               |NA      |
+|8  |Bacteria |Firmicutes     |Bacilli             |Bacillales         |Paenibacillaceae_1  |Paenibacillus    |NA      |
+|11 |Bacteria |Proteobacteria |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae  |NA               |NA      |
+|15 |Bacteria |Firmicutes     |Bacilli             |Bacillales         |Paenibacillaceae_1  |Paenibacillus    |NA      |
+|5  |Bacteria |Bacteroidetes  |Bacteroidia         |Bacteroidales      |Porphyromonadaceae  |NA               |NA      |
+|1  |Bacteria |Proteobacteria |Gammaproteobacteria |Enterobacteriales  |Enterobacteriaceae  |Klebsiella       |oxytoca |
+|20 |Bacteria |Bacteroidetes  |Bacteroidia         |Bacteroidales      |Porphyromonadaceae  |NA               |NA      |
+|6  |Bacteria |Bacteroidetes  |Bacteroidia         |Bacteroidales      |Porphyromonadaceae  |Barnesiella      |NA      |
+|37 |Bacteria |Bacteroidetes  |Bacteroidia         |Bacteroidales      |Porphyromonadaceae  |NA               |NA      |
+|56 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Ruminococcaceae     |Oscillibacter    |NA      |
+|94 |Bacteria |Firmicutes     |Bacilli             |Bacillales         |Paenibacillaceae_1  |Paenibacillus    |NA      |
+|45 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Lachnospiraceae     |Clostridium_XlVa |NA      |
+|39 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |Lachnospiraceae     |Marvinbryantia   |NA      |
+|41 |Bacteria |Firmicutes     |Clostridia          |Clostridiales      |NA                  |NA               |NA      |
